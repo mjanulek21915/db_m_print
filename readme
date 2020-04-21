@@ -1,5 +1,16 @@
 readme v0.1
 
+la fonction est en mode "fichiers source" pour plus de facilite a naviguer
+dans le basar. ya des exemples dans le fichier res. 
+mk.sh est un script pour compiler le tout. si aucun parametre n'est fourni,
+compile avec main.c dans le fichier main. peut recevoir un nom de fichier en parametre,
+ira chercher  main/(nom de fichier).c pour comipler avec en guise de main.
+
+construit sur linux. normalement devrait marcher sur mac. a verifier, ca.
+a implementer: va args pour pas devoir me retrouver a rentrer NULL
+ecrire un main pour en faire un executable, ecrire un makefile, ecrire un script qui
+compile tous les fichiers .c en un seul fichier h et dans l'autre sens)
+
 
 m_print est un outil permettant d afficher une plage memoire ou un fichier et de
 convertir en divers types de donnees (des ints, des chars, des bytes).
