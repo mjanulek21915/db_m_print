@@ -1,0 +1,78 @@
+readme v0.1
+
+
+m_print est un outil permettant d afficher une plage memoire ou un fichier et de
+convertir en divers types de donnees (des ints, des chars, des bytes).
+
+
+fonctionnement:
+
+db_m_print(void *ptr, char *fmt);
+
+*ptr etant la plage de donnees a traiter (ignore si chemin fourni dans fmt)
+*fmt est une chaine de caracteres exprimant le mode d'affichage.
+
+
+fmt peux ere compose d'un flag principal, d'un flag additionnel, d'un numerateur, d'une expression "separateur",
+ou d'un chemin, dans n'importe quelle combinaison. 
+
+
+chaque element doit apparaitre qu'une seule fois.
+le numerateur doit etre place apres le flag, optionnellement separe par un ou des espaces.
+un separateur doit etre mis entre *, un chemin de fichier entre $.
+
+
+flags: conversion a faire.
+"-i" convertit en int affiche en nombres decimaux
+"-b" convertit en bytes affiche en nombres decimaux
+"-c" convertit en chars
+"-s" convertit en chars, affiche toutes les adresses consecutives jusqu'au \0
+s'il s'agit d un fichier lit jusqu'a arriver a un byte qui la valeur 0 ou une fin de fichier.
+
+
+flags additionnel: modification du comportement (optionnel)
+"-np" pour la conversion -c et -s on peut rajouter -np pour que tous les caracteres non 
+imprimables ou non affichables (ascii etendu) soient ecrits sous la forme /valeur numerique.
+p.ex \n deviendra /10, 10 etant la valeur nbumerique de /n
+"-nosep" pour ne pas utiliser de separateur entre les valeurs affichees.
+
+
+numerateur: nombre decimal, nombre de caracteres/ints/bytes a lire. (optionnel)
+doit immediatment suivre le flag principal.
+si le numerateur n'est pas specifie, si l'outil lit une plage de memoire, 
+une seule valeur sera affichee, sauf s'il s'agit du flag principal "-s".
+si l'outil lit un fichier, l'entierete de celui ci sera lue.
+
+
+separateur: commence et se termine par *, chaine de caracteres a utiliser a la place du separateur
+defini dans le header. (optionnel)
+
+
+chemin du fichier: commence et se termine par $, si fourni, change le mode de fonctionnement. (optionnel)
+l'outil lit un fichier a la place de la plage  indiquee par ptr. dan ce mode de fonctionnement
+ptr est ignore tel qu'il peut etre NULL sans soulever de segfault.
+
+
+exemples:
+
+    include db_m_print.h
+
+    int list[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    db_m_print(list, "-i 10 *-*");
+
+    >0-1-2-3-4-5-6-7-8-9
+
+
+    db_m_print(NULL, "$res/test1.bmp$ -b6");
+
+    >66|77|202|6|0|0
+
+
+    char str[100] = "ceci est une chaine de caracteres";
+    db_m_print(str, "-s -nosep");
+
+    >ceci est une chaine de caracteres
+
+
+
+
