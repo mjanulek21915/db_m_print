@@ -1,6 +1,6 @@
 #include "db_m_print.h"
 
-void db_m_print(void *buff, char *fmt)
+void db_m_print(char *fmt, ...)
 {
     int i;
     int count;
@@ -15,6 +15,7 @@ void db_m_print(void *buff, char *fmt)
     int sep_len;
     int has_sep;
     int sep_malloc;
+    va_list args;
 
     sep_malloc = 0;
     if (!(sep = db_mp_get_sep(fmt)))
@@ -37,7 +38,8 @@ void db_m_print(void *buff, char *fmt)
     }
     else 
     {
-        src = buff;
+        va_start(args, fmt);
+        src = va_arg(args, void *);
         mode = 'b';
     }
 

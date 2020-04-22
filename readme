@@ -1,4 +1,4 @@
-readme v0.1
+readme v0.2
 
 la fonction est en mode "fichiers source" pour plus de facilite a naviguer
 dans le basar. ya des exemples dans le fichier res. 
@@ -7,7 +7,6 @@ compile avec main.c dans le fichier main. peut recevoir un nom de fichier en par
 ira chercher  main/(nom de fichier).c pour comipler avec en guise de main.
 
 construit sur linux. normalement devrait marcher sur mac. a verifier, ca.
-a implementer: va args pour pas devoir me retrouver a rentrer NULL
 ecrire un main pour en faire un executable, ecrire un makefile, ecrire un script qui
 compile tous les fichiers .c en un seul fichier h et dans l'autre sens)
 
@@ -18,15 +17,14 @@ convertir en divers types de donnees (des ints, des chars, des bytes).
 
 fonctionnement:
 
-db_m_print(void *ptr, char *fmt);
+db_m_print(char *fmt, ...);
 
-*ptr etant la plage de donnees a traiter (ignore si chemin fourni dans fmt)
-*fmt est une chaine de caracteres exprimant le mode d'affichage.
 
 
 fmt peux ere compose d'un flag principal, d'un flag additionnel, d'un numerateur, d'une expression "separateur",
 ou d'un chemin, dans n'importe quelle combinaison. 
 
+si aucun chemin fichier n'est fourni, prend l'argument optionnel en tant que source.
 
 chaque element doit apparaitre qu'une seule fois.
 le numerateur doit etre place apres le flag, optionnellement separe par un ou des espaces.
@@ -66,21 +64,19 @@ ptr est ignore tel qu'il peut etre NULL sans soulever de segfault.
 
 exemples:
 
-    include db_m_print.h
-
     int list[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    db_m_print(list, "-i 10 *-*");
+    db_m_print("-i 10 *-*", list);
 
     >0-1-2-3-4-5-6-7-8-9
 
 
-    db_m_print(NULL, "$res/test1.bmp$ -b6");
+    db_m_print("$res/test1.bmp$ -b6");
 
     >66|77|202|6|0|0
 
 
     char str[100] = "ceci est une chaine de caracteres";
-    db_m_print(str, "-s -nosep");
+    db_m_print("-s -nosep", str);
 
     >ceci est une chaine de caracteres
 
